@@ -98,28 +98,28 @@ CODEGEN="{\
 \"generateDocs\":false\
 }"
 CATEGORIES=""
-if [[ -z ${AMPLIFY_FACEBOOK_CLIENT_ID} && -z ${AMPLIFY_GOOGLE_CLIENT_ID} && -z ${AMPLIFY_AMAZON_CLIENT_ID} ]]; then
-    AUTHCONFIG="{\
-   \"userPoolId\":\"${AMPLIFY_USERPOOL_ID}\",\
-   \"webClientId\":\"${AMPLIFY_WEBCLIENT_ID}\",\
-   \"nativeClientId\":\"${AMPLIFY_NATIVECLIENT_ID}\"\
-    }"
-    CATEGORIES="{\
-    \"auth\":$AUTHCONFIG\
-    }"
-else
-    AUTHCONFIG="{\
-    \"facebookAppIdUserPool\":\"${AMPLIFY_FACEBOOK_CLIENT_ID}\",\
-    \"facebookAppSecretUserPool\":\"${AMPLIFY_FACEBOOK_CLIENT_SECRET}\",\
-    \"googleAppIdUserPool\":\"${AMPLIFY_GOOGLE_CLIENT_ID}\",\
-    \"googleAppSecretUserPool\":\"${AMPLIFY_GOOGLE_CLIENT_SECRET}\",\
-    \"amazonAppIdUserPool\":\"${AMPLIFY_AMAZON_CLIENT_ID}\",\
-    \"amazonAppSecretUserPool\":\"${AMPLIFY_AMAZON_CLIENT_SECRET}\"\
-    }"
-    CATEGORIES="{\
-    \"auth\":$AUTHCONFIG\
-    }"
-fi
+# if [[ -z ${AMPLIFY_FACEBOOK_CLIENT_ID} && -z ${AMPLIFY_GOOGLE_CLIENT_ID} && -z ${AMPLIFY_AMAZON_CLIENT_ID} ]]; then
+AUTHCONFIG="{\
+\"userPoolId\":\"${AMPLIFY_USERPOOL_ID}\",\
+\"webClientId\":\"${AMPLIFY_WEBCLIENT_ID}\",\
+\"nativeClientId\":\"${AMPLIFY_NATIVECLIENT_ID}\"\
+}"
+CATEGORIES="{\
+\"auth\":$AUTHCONFIG\
+}"
+# else
+#     AUTHCONFIG="{\
+#     \"facebookAppIdUserPool\":\"${AMPLIFY_FACEBOOK_CLIENT_ID}\",\
+#     \"facebookAppSecretUserPool\":\"${AMPLIFY_FACEBOOK_CLIENT_SECRET}\",\
+#     \"googleAppIdUserPool\":\"${AMPLIFY_GOOGLE_CLIENT_ID}\",\
+#     \"googleAppSecretUserPool\":\"${AMPLIFY_GOOGLE_CLIENT_SECRET}\",\
+#     \"amazonAppIdUserPool\":\"${AMPLIFY_AMAZON_CLIENT_ID}\",\
+#     \"amazonAppSecretUserPool\":\"${AMPLIFY_AMAZON_CLIENT_SECRET}\"\
+#     }"
+#     CATEGORIES="{\
+#     \"auth\":$AUTHCONFIG\
+#     }"
+# fi
 # Handle old or new config file based on simple flag
 if [[ ${IS_SIMPLE} ]];
 then
