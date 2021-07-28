@@ -1,0 +1,17 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: Creating of calls' frontend
+Resources:
+  AmplifyApp:
+    Type: AWS::Amplify::App
+    Properties:
+      Name: CallReactChime 
+      Repository: https://github.com/GlermS/react-chime.git
+
+Outputs:
+  AmplifyAppArn:
+    Description: The ARN for the Amplify app
+    Value:
+      'Fn::GetAtt': [AmplifyApp, Arn]
+    Export: 
+      Name: amplify:app
+

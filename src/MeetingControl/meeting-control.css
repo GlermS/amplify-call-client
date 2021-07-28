@@ -1,0 +1,13 @@
+#meeting-control{
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    z-index: 10;
+}
+
+#meeting-control button{
+    margin-bottom: 2.5rem;
+}
