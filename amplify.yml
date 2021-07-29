@@ -9,12 +9,11 @@ frontend:
     preBuild:
       commands:
         - yarn install
-        - yarn global add serve
     build:
       commands:
-        - serve -s build
+        - yarn build
   artifacts:
-    baseDirectory: dist
+    baseDirectory: build
     files:
       - '**/*'
   cache:
