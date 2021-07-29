@@ -1,14 +1,13 @@
-import React, {useState, useContext, useEffect } from 'react';
+import React, {useState, useEffect } from 'react';
 import {
   BrowserRouter as Router,
   Switch,
   Route,
   useParams
 } from "react-router-dom";
-import { withAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react';
+import { withAuthenticator} from '@aws-amplify/ui-react';
 import './App.css';
 import MyVideoGrid from './VideoGrid'
-import {Meeting, User} from './context'
 import { ThemeProvider } from 'styled-components';
 import { darkTheme, MeetingProvider, useMeetingManager } from 'amazon-chime-sdk-component-library-react';
 import Amplify, {Auth} from 'aws-amplify';
@@ -46,7 +45,7 @@ function Room(){
   const meetingManager = useMeetingManager();
   const [attendee, setAttendee] = useState({});
   const [meeting, setMeeting] = useState({});
-  const [connection, setConnection] = useState({});
+  const [, setConnection] = useState({});
   const [token, setToken] = useState('');
   const { meetingId } = useParams();
 

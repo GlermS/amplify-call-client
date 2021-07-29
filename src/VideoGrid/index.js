@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';//, useState
 import {
   useRemoteVideoTileState,
   RemoteVideo,
@@ -7,7 +7,7 @@ import {
 } from 'amazon-chime-sdk-component-library-react';
 import MeetingControl from '../MeetingControl';
 import './videogrid.css'
-import { color } from 'styled-system';
+// import { color } from 'styled-system';
 
 export default function MyVideoGrid(props){
   // const [tiles, setTiles] = useState([])
