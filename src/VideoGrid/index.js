@@ -22,8 +22,6 @@ export default function MyVideoGrid(props){
   console.log("Tiles: ",tiles)
   return (
     <div className={`grid grid--size-${tiles.length}`} id="video-grid">
-
-      Video aqui{tiles}
       <div className={"videos-container"}>
         <div className={"remote-container"}>
           { tiles.length ? videos: "Aguardando inicio de chamada"}
@@ -32,7 +30,7 @@ export default function MyVideoGrid(props){
         <LocalVideo id="local-video"></LocalVideo>
       </div>     
       
-      <MeetingControl></MeetingControl>
+      <MeetingControl onLeave={()=>{props.onLeave()}}></MeetingControl>
     </div>
   )
 }

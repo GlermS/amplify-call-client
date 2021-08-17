@@ -45,7 +45,7 @@ function Room(){
   const meetingManager = useMeetingManager();
   const [attendee, setAttendee] = useState({});
   const [meeting, setMeeting] = useState({});
-  const [, setConnection] = useState({});
+  const [connection, setConnection] = useState(false);
   const [token, setToken] = useState('');
   const { meetingId } = useParams();
 
@@ -87,25 +87,45 @@ function Room(){
       console.log(error)
     }
   }
-  const connect = async ()=>{
+  const connect = async (c=0)=>{
+    if (c>5){
+      return;
+    }
     console.log("Tentando conexão")
+    c=c+1;
     try{
       await meetingManager.join({meetingInfo: meeting, attendeeInfo: attendee});
       await meetingManager.start();
       setConnection(true)
-    }catch(error){
-      console.log(error)
-      setConnection(false)
+    }catch(e){
+      if (e instanceof TypeError){
+        console.log(e)
+        setTimeout(() => {connect(c)}, 1000);
+        
+      }else{
+        console.log(e)
+        setConnection(false)
+      }
     }
   }
-  return (
-    <>
-      <h1>Id: {meetingId}</h1>
-      <button onClick={()=>{joinMeeting(meetingId, token)}}>Join</button>
-      <MyVideoGrid />
-      {/* <Menu update={uptadeState}>{}</Menu> */}
-    </>          
-  )
+  if(!connection){
+    return (
+      <div id='room-container'>
+        <h1>Are you ready?</h1>
+        <button onClick={()=>{joinMeeting(meetingId, token)}}>Join meeting</button>
+        {/* <Menu update={uptadeState}>{}</Menu> */}
+      </div>          
+    )
+  }else{
+    return (
+      <div id='room-container'>
+        {/* <h1>Id: {meetingId}</h1> */}>
+        <MyVideoGrid onLeave={()=>{setConnection(false)}}/>
+        {/* <Menu update={uptadeState}>{}</Menu> */}
+      </div>          
+    )
+  }
+  
 }
 
       

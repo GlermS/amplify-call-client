@@ -5,7 +5,7 @@ import {
   } from 'amazon-chime-sdk-component-library-react';
 import "./meeting-control.css"
 
-export default function MeetingControl (){
+export default function MeetingControl (props){
     const { isAudioOn, toggleAudio } = useLocalAudioOutput();
     const { isVideoEnabled ,toggleVideo } = useLocalVideo();
     const meetingManager = useMeetingManager ();
@@ -27,7 +27,7 @@ export default function MeetingControl (){
         <div id="meeting-control">
             <button onClick={toggleVideo} style={{'backgroundColor':color(isVideoEnabled), 'textDecoration':'none','border': 'none'}}>Camera</button>
             <button onClick={toggleAudio} style={{'backgroundColor':color(isAudioOn), 'textDecoration':'none','border': 'none'}}>Mic</button>
-            <button onClick = {()=>{meetingManager.leave()}}>Sair</button>
+            <button onClick = {()=>{meetingManager.leave(); props.onLeave()}}>Sair</button>
         </div>
     );
 }
