@@ -24,7 +24,7 @@ export default function MyVideoGrid(props){
     <div className={`grid grid--size-${tiles.length}`} id="video-grid">
       <div className={"videos-container"}>
         <div className={"remote-container"}>
-          { tiles.length ? videos: "Aguardando inicio de chamada"}
+          { tiles.length ? videos: <p>Waiting others speakers</p>}
         </div>
         
         <LocalVideo id="local-video"></LocalVideo>
