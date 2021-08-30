@@ -5,7 +5,9 @@ import {
   Route,
   useParams
 } from "react-router-dom";
-import { withAuthenticator} from '@aws-amplify/ui-react';
+import { AuthState, onAuthUIStateChange } from '@aws-amplify/ui-components';
+
+import { AmplifyAuthenticator, AmplifySignIn, AmplifySignUp, withAuthenticator} from '@aws-amplify/ui-react';
 import './App.css';
 import MyVideoGrid from './VideoGrid'
 import { ThemeProvider } from 'styled-components';
@@ -16,8 +18,19 @@ import axios from 'axios'
 Amplify.configure(awsconfig);
 
 
+
 function App (props){
-  return (
+  const [authState, setAuthState] = React.useState();
+  const [user, setUser] = React.useState();
+
+  React.useEffect(() => {
+      return onAuthUIStateChange((nextAuthState, authData) => {
+          setAuthState(nextAuthState);
+          setUser(authData)
+      });
+  }, []);
+
+  return authState === AuthState.SignedIn && user ? (
     <div className="App">
       <ThemeProvider theme = {darkTheme}>
         {/* <Meeting.Provider value = {meeting}>
@@ -36,10 +49,21 @@ function App (props){
         </Meeting.Provider> */}
       </ThemeProvider>
    </div>
+  ):(
+    <AmplifyAuthenticator>
+      <AmplifySignIn
+        federated={{}}
+        headerText="My Custom Sign In Text"
+        slot="sign-in"
+        hideSignUp={true}
+      >
+        {/* Olá */}
+      </AmplifySignIn>
+    </AmplifyAuthenticator>
   ); 
 }
 
-export default withAuthenticator(App);
+export default App;
 
 function Room(){
   const meetingManager = useMeetingManager();
