@@ -63,7 +63,7 @@ function Room(){
 
   const joinMeeting = async (meetingId, token)=>{
     let response = await axios({
-      url: 'https://aq42kwrthc.execute-api.us-east-1.amazonaws.com/dev/meeting/join',
+      url: 'https://api.yubbe.club/meetings/join',
       method:'get',
       crossDomain: true,
       params:{meetingId},
