@@ -1,12 +1,14 @@
 import {
     useMeetingManager ,
     useLocalAudioOutput,
+    useToggleLocalMute,
     useLocalVideo
   } from 'amazon-chime-sdk-component-library-react';
 import "./meeting-control.css"
 
 export default function MeetingControl (props){
     const { isAudioOn, toggleAudio } = useLocalAudioOutput();
+    const { muted, toggleMute       }    = useToggleLocalMute()
     const { isVideoEnabled ,toggleVideo } = useLocalVideo();
     const meetingManager = useMeetingManager ();
 
@@ -15,18 +17,18 @@ export default function MeetingControl (props){
     //       toggleVideo()
     //     }})
     
-    function color(state){
+    function buttonColor(state){
         if(state){
-            return "#0F0F0F"
+            return {'backgroundColor':"#0F0F0F", 'color':"#F0F0F0", 'textDecoration':'none','border': 'none'}
         }else{
-            return "#F0F0F0"
+            return {'backgroundColor':"#F0F0F0", 'color':"#0F0F0F", 'textDecoration':'none','border': 'none'}
         }
     }
 
     return (
         <div id="meeting-control">
-            <button onClick={toggleVideo} style={{'backgroundColor':color(isVideoEnabled), 'textDecoration':'none','border': 'none'}}>Camera</button>
-            <button onClick={toggleAudio} style={{'backgroundColor':color(isAudioOn), 'textDecoration':'none','border': 'none'}}>Mic</button>
+            <button onClick={toggleVideo} style={buttonColor(isVideoEnabled)}>Camera</button>
+            <button onClick={toggleMute} style={buttonColor(muted)}>Mic</button>
             <button onClick = {()=>{meetingManager.leave(); props.onLeave()}}>Sair</button>
         </div>
     );

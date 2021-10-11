@@ -57,7 +57,7 @@ function App (props){
         slot="sign-in"
         hideSignUp={true}
       >
-        {/* Olá */}
+        {/* Olá                */}
       </AmplifySignIn>
     </AmplifyAuthenticator>
   ); 
