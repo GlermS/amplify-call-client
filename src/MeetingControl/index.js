@@ -11,7 +11,7 @@ export default function MeetingControl (props){
     const { muted, toggleMute       }    = useToggleLocalMute()
     const { isVideoEnabled ,toggleVideo } = useLocalVideo();
     const meetingManager = useMeetingManager ();
-
+    const {showChatBox, setShowChatBox} = props.display
     // useEffect(()=>{
     //     if (isVideoEnabled != ligarCamera){
     //       toggleVideo()
@@ -27,6 +27,7 @@ export default function MeetingControl (props){
 
     return (
         <div id="meeting-control">
+            <button onClick={()=>{setShowChatBox('block')}}>Chat</button>
             <button onClick={toggleVideo} style={buttonColor(isVideoEnabled)}>Camera</button>
             <button onClick={toggleMute} style={buttonColor(muted)}>Mic</button>
             <button onClick = {()=>{meetingManager.leave(); props.onLeave()}}>Sair</button>

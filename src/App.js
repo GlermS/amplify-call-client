@@ -9,20 +9,28 @@ import { AuthState, onAuthUIStateChange } from '@aws-amplify/ui-components';
 
 import { AmplifyAuthenticator, AmplifySignIn, AmplifySignUp, withAuthenticator} from '@aws-amplify/ui-react';
 import './App.css';
+import Channel from './Chat/Channels'
 import MyVideoGrid from './VideoGrid'
 import { ThemeProvider } from 'styled-components';
 import { darkTheme, MeetingProvider, useMeetingManager } from 'amazon-chime-sdk-component-library-react';
 import Amplify, {Auth} from 'aws-amplify';
 import awsconfig from './aws-exports';
 import axios from 'axios'
+import { AuthProvider } from './Chat/providers/AuthProvider';
+import { MessagingProvider } from './Chat/providers/ChatMessagesProvider';
+import { UserPermissionProvider } from './Chat/providers/UserPermissionProvider';
+import { AppStateProvider } from './Chat/providers/AppStateProvider';
+import { useChatChannelState } from './Chat/providers/ChatMessagesProvider';
+// import { describeChannel } from './Chat/api/ChimeAPI';
 Amplify.configure(awsconfig);
 
 
 
 function App (props){
   const [authState, setAuthState] = React.useState();
-  const [user, setUser] = React.useState();
+  const [user, setUser] = React.useState(); 
 
+ 
   React.useEffect(() => {
       return onAuthUIStateChange((nextAuthState, authData) => {
           setAuthState(nextAuthState);
@@ -33,8 +41,11 @@ function App (props){
   return authState === AuthState.SignedIn && user ? (
     <div className="App">
       <ThemeProvider theme = {darkTheme}>
-        {/* <Meeting.Provider value = {meeting}>
-          <User.Provider value = {{_id: 0 , name:"Guilherme", role: "adm"}}> */}
+        {/* <Meeting.Provider value = {meeting}> */}
+          <AuthProvider>
+            <AppStateProvider>
+            <UserPermissionProvider>
+            <MessagingProvider>
               <div className='App-content'>
                 <MeetingProvider>
                   <Router>
@@ -45,8 +56,11 @@ function App (props){
                   </Router>
                 </MeetingProvider>
               </div>
-          {/* </User.Provider> 
-        </Meeting.Provider> */}
+              </MessagingProvider>
+              </UserPermissionProvider>
+              </AppStateProvider>
+              </AuthProvider>
+        {/* </Meeting.Provider> */}
       </ThemeProvider>
    </div>
   ):(
@@ -72,8 +86,20 @@ function Room(){
   const [connection, setConnection] = useState(false);
   const [token, setToken] = useState('');
   const { meetingId } = useParams();
+  // const {
+  //   setActiveChannel,
+  //   activeChannel,
+  // } = useChatChannelState()
+  // console.log(activeChannel)
+  // console.log(meeting)
+  // useEffect(async() => {
+  //   if (activeChannel.ChannelArn!=meeting.channel){
+  //     let  channel = await describeChannel(meeting.channel, attendee.userId);
+  //     setActiveChannel(channel)
+  //   }
+  // })
 
-  
+
   useEffect(()=>{
     async function getToken(){
       let session = await Auth.currentSession()
@@ -118,7 +144,7 @@ function Room(){
     console.log("Tentando conexão")
     c=c+1;
     try{
-      await meetingManager.join({meetingInfo: meeting, attendeeInfo: attendee});
+      await meetingManager.join({meetingInfo: meeting.chime_info.Meeting, attendeeInfo: attendee});
       await meetingManager.start();
       setConnection(true)
     }catch(e){
@@ -133,10 +159,13 @@ function Room(){
     }
   }
   if(!connection){
+    console.log(attendee)
     return (
       <div id='room-container'>
         <h1>Are you ready?</h1>
         <button onClick={()=>{joinMeeting(meetingId, token)}}>Join meeting</button>
+        {console.log(meeting)}
+        {/* <Channel meetingId={meetingId} userId={attendee.ExternalUserId} channelArn={meeting.channel}/> */}
         {/* <Menu update={uptadeState}>{}</Menu> */}
       </div>          
     )
@@ -144,7 +173,8 @@ function Room(){
     return (
       <div id='room-container'>
         {/* <h1>Id: {meetingId}</h1> */}
-        <MyVideoGrid onLeave={()=>{setConnection(false)}}/>
+        <MyVideoGrid onLeave={()=>{setConnection(false)}} meeting={meeting} attendee={attendee}/>
+        
         {/* <Menu update={uptadeState}>{}</Menu> */}
       </div>          
     )
@@ -158,6 +188,7 @@ function Default(){
   return (
     <div className="App">
       <h1>Default</h1>
+      
    </div>
   )
 }

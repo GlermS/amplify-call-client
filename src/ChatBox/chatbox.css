@@ -1,0 +1,47 @@
+#chatbox{
+    display: none;
+    position: absolute;
+    z-index: 50;
+    bottom: 0;
+    right: 3rem;
+    width: 30rem;
+    font-size: small;
+    background-color: white;
+    padding: 0.8rem;
+}
+
+form{
+    margin: 0 0 2pt 0;
+    padding: 0;
+    display: flex;
+    justify-content: space-between;
+}
+
+#send-input{
+    width: 90%;
+}
+
+#chatbox button{
+    font-size: smaller;
+    padding: 0.5rem 1rem;
+    margin: 0.02rem;
+}
+
+.message-author{
+    font-weight: bold;
+}
+
+.self-message{
+    padding: 2pt;
+    text-align: right;
+}
+
+.standard-message{
+    padding: 2pt;
+    text-align: left;
+}
+
+#messages-header{
+    display: flex;
+    justify-content: flex-end;
+}
